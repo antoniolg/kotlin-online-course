@@ -1,3 +1,3 @@
 package com.antonioleiva.myplayer
 
-class MediaItem
+data class MediaItem(val title: String, val thumbUrl: String)

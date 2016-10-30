@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import com.squareup.picasso.Picasso
 
 class MediaAdapter(private val data: List<MediaItem>) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
@@ -27,7 +28,8 @@ class MediaAdapter(private val data: List<MediaItem>) :
         private val thumb: ImageView = view.findViewById(R.id.media_thumb)
 
         fun bind(item: MediaItem) {
-
+            title.setText(item.title)
+            Picasso.with(thumb.context).load(item.thumbUrl).into(thumb)
         }
 
     }
