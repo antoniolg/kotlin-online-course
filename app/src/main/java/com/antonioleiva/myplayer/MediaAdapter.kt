@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import com.squareup.picasso.Picasso
 
 class MediaAdapter(private val data: List<MediaItem>) :
@@ -28,8 +29,9 @@ class MediaAdapter(private val data: List<MediaItem>) :
         private val thumb: ImageView = view.findViewById(R.id.media_thumb)
 
         fun bind(item: MediaItem) {
-            title.setText(item.title)
+            title.text = item.title
             Picasso.with(thumb.context).load(item.thumbUrl).into(thumb)
+            itemView.setOnClickListener { Toast.makeText(itemView.context, item.title, Toast.LENGTH_SHORT).show() }
         }
 
     }
