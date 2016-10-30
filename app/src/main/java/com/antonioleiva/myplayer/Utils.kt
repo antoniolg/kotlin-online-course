@@ -1,3 +1,5 @@
+@file:Suppress("unused")
+
 package com.antonioleiva.myplayer
 
 import android.content.Context
