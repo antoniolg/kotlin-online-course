@@ -5,10 +5,11 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
 
-    private val adapter = MediaAdapter { toast(it.title) }
+    private val adapter = MediaAdapter { itemClicked(it) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,5 +39,9 @@ class MainActivity : AppCompatActivity() {
             else -> emptyList()
         }
         progress.hide()
+    }
+
+    private fun itemClicked(it: MediaItem) {
+        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
     }
 }

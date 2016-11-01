@@ -16,7 +16,7 @@ object MediaProvider {
     fun dataAsync(f: (List<MediaItem>) -> Unit) = doAsync {
         if (data.isEmpty()) {
             Thread.sleep(5000)
-            data = (1..10).map { MediaItem("Title $it", "$thumbBase$it", randomType()) }
+            data = (1L..10L).map { MediaItem(it, "Title $it", "$thumbBase$it", randomType()) }
         }
 
         uiThread {
