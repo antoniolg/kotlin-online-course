@@ -5,11 +5,11 @@ import android.view.View
 import android.view.ViewGroup
 import kotlinx.android.synthetic.main.view_media_item.view.*
 
-class MediaAdapter(private val data: List<MediaItem>) :
+class MediaAdapter(private val data: List<MediaItem>, private val listener: (MediaItem) -> Unit) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder =
-            ViewHolder(parent.inflate(R.layout.view_media_item))
+        ViewHolder(parent.inflate(R.layout.view_media_item), listener)
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(data[position])
@@ -17,18 +17,18 @@ class MediaAdapter(private val data: List<MediaItem>) :
 
     override fun getItemCount(): Int = data.size
 
-    class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val listener: (MediaItem) -> Unit) :
+        RecyclerView.ViewHolder(view) {
 
         fun bind(item: MediaItem) = with(itemView) {
             media_title.text = item.title
             media_thumb.loadUrl(item.thumbUrl)
-            setOnClickListener { toast(item.title) }
+            setOnClickListener { listener(item) }
 
             media_video_indicator.visibility = when (item.type) {
                 MediaItem.Type.PHOTO -> View.GONE
                 MediaItem.Type.VIDEO -> View.VISIBLE
             }
         }
-
     }
 }

@@ -21,7 +21,7 @@ fun RecyclerView.ViewHolder.toast(message: String, length: Int = Toast.LENGTH_SH
 }
 
 fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false): View =
-        LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
+    LayoutInflater.from(context).inflate(layoutRes, this, attachToRoot)
 
 fun ImageView.loadUrl(url: String) {
     Picasso.with(context).load(url).into(this)
