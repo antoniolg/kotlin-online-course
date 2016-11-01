@@ -26,3 +26,6 @@ fun ViewGroup.inflate(@LayoutRes layoutRes: Int, attachToRoot: Boolean = false):
 fun ImageView.loadUrl(url: String) {
     Picasso.with(context).load(url).into(this)
 }
+
+fun View.show() = run { visibility = View.VISIBLE }
+fun View.hide() = run { visibility = View.GONE }

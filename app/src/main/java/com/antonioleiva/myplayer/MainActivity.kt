@@ -8,13 +8,15 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private val adapter by lazy { MediaAdapter(MediaCache.data) { toast(it.title) } }
+    private val adapter = MediaAdapter { toast(it.title) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
         recycler.adapter = adapter
+        progress.show()
+        MediaProvider.dataAsync { updateData(it) }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -23,15 +25,18 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        adapter.data = MediaCache.data.let { media ->
-            when (item.itemId) {
-                R.id.filter_all -> media
-                R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
-                R.id.filter_videos -> media.filter { it.type == MediaItem.Type.VIDEO }
-                else -> emptyList()
-            }
-        }
-
+        progress.show()
+        MediaProvider.dataAsync { updateData(it, item.itemId) }
         return true
+    }
+
+    private fun updateData(media: List<MediaItem>, filterId: Int = R.id.filter_all) {
+        adapter.data = when (filterId) {
+            R.id.filter_all -> media
+            R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
+            R.id.filter_videos -> media.filter { it.type == MediaItem.Type.VIDEO }
+            else -> emptyList()
+        }
+        progress.hide()
     }
 }
