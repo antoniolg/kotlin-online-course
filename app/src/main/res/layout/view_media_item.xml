@@ -15,6 +15,7 @@
             android:id="@+id/media_thumb"
             android:layout_width="match_parent"
             android:layout_height="200dp"
+            android:scaleType="centerCrop"
             tools:src="@mipmap/ic_launcher"/>
 
         <ImageView
