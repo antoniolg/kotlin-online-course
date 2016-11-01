@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/filter_all"
+        android:title="All"/>
+    <item
+        android:id="@+id/filter_photos"
+        android:title="Photos"/>
+    <item
+        android:id="@+id/filter_videos"
+        android:title="Videos"/>
+</menu>
