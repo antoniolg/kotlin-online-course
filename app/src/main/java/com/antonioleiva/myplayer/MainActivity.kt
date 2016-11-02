@@ -26,17 +26,27 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        progress.show()
-        MediaProvider.dataAsync { updateData(it, item.itemId) }
-        return true
+
+        val filter = when (item.itemId) {
+            R.id.filter_all -> Filter.None
+            R.id.filter_photos -> Filter.ByMediaType(MediaItem.Type.PHOTO)
+            R.id.filter_videos -> Filter.ByMediaType(MediaItem.Type.VIDEO)
+            else -> null
+        }
+
+        filter?.let {
+            progress.show()
+            MediaProvider.dataAsync { media -> updateData(media, filter) }
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 
-    private fun updateData(media: List<MediaItem>, filterId: Int = R.id.filter_all) {
-        adapter.data = when (filterId) {
-            R.id.filter_all -> media
-            R.id.filter_photos -> media.filter { it.type == MediaItem.Type.PHOTO }
-            R.id.filter_videos -> media.filter { it.type == MediaItem.Type.VIDEO }
-            else -> emptyList()
+    private fun updateData(media: List<MediaItem>, filter: Filter = Filter.None) {
+        adapter.data = when (filter) {
+            Filter.None -> media
+            is Filter.ByMediaType -> media.filter { it.type == filter.type }
         }
         progress.hide()
     }
