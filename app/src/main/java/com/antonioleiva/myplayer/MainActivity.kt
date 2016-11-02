@@ -5,35 +5,19 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.*
 import org.jetbrains.anko.startActivity
-import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity(), CoroutineScope {
-
-    private lateinit var job: Job
-
-    override val coroutineContext: CoroutineContext
-        get() = Dispatchers.Main + job
+class MainActivity : AppCompatActivity(), MainPresenter.View {
 
     private val adapter = MediaAdapter { itemClicked(it) }
+    private val presenter = MainPresenter(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        job = Job()
-
         recycler.adapter = adapter
-        progress.show()
-
-        loadContent()
-    }
-
-    private fun loadContent(filter: Filter = Filter.None) = launch {
-        val cats = async(Dispatchers.IO) { MediaProvider.dataSync("cats") }
-        val nature = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
-        updateData(cats.await() + nature.await(), filter)
+        presenter.onCreate()
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -42,7 +26,6 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-
         val filter = when (item.itemId) {
             R.id.filter_all -> Filter.None
             R.id.filter_photos -> Filter.ByMediaType(MediaItem.Type.PHOTO)
@@ -51,28 +34,22 @@ class MainActivity : AppCompatActivity(), CoroutineScope {
         }
 
         filter?.let {
-            progress.show()
-            loadContent(filter)
+            presenter.filterClicked(filter)
             return true
         }
 
         return super.onOptionsItemSelected(item)
     }
 
-    private fun updateData(media: List<MediaItem>, filter: Filter = Filter.None) {
-        adapter.data = when (filter) {
-            Filter.None -> media
-            is Filter.ByMediaType -> media.filter { it.type == filter.type }
-        }
-        progress.hide()
+    private fun itemClicked(item: MediaItem) {
+        presenter.itemClicked(item)
     }
 
-    private fun itemClicked(it: MediaItem) {
-        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
+    override fun updateData(media: List<MediaItem>) {
+        adapter.data = media
     }
 
-    override fun onDestroy() {
-        job.cancel()
-        super.onDestroy()
-    }
+    override fun showProgress() = progress.show()
+    override fun hideProgress() = progress.hide()
+    override fun navigateTo(id: Long) = startActivity<DetailActivity>(DetailActivity.EXTRA_ID to id)
 }
