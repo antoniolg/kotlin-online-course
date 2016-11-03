@@ -1,6 +1,6 @@
 package com.antonioleiva.myplayer
 
-class MainPresenter(private val view: View) {
+class MainPresenter(private val view: View, private val provider: Provider = MediaProvider) {
 
     interface View {
         fun updateData(media: List<MediaItem>)
@@ -15,7 +15,7 @@ class MainPresenter(private val view: View) {
 
     fun filterClicked(filter: Filter) {
         view.showProgress()
-        MediaProvider.dataAsync { media ->
+        provider.dataAsync { media ->
 
             val result = when (filter) {
                 Filter.None -> media

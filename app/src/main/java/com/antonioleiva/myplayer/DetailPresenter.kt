@@ -1,6 +1,6 @@
 package com.antonioleiva.myplayer
 
-class DetailPresenter(private val view: View) {
+class DetailPresenter(private val view: View, private val provider: Provider = MediaProvider) {
 
     interface View {
         fun setTitle(title: String)
@@ -8,7 +8,7 @@ class DetailPresenter(private val view: View) {
         fun setDetailIndicatorVisible(visible: Boolean)
     }
 
-    fun onCreate(itemId: Long) = MediaProvider.dataAsync { media ->
+    fun onCreate(itemId: Long) = provider.dataAsync { media ->
 
         val item = media.find { it.id == itemId }
 
