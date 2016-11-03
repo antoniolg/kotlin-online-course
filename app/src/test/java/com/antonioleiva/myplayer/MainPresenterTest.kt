@@ -1,5 +1,8 @@
 package com.antonioleiva.myplayer
 
+import com.antonioleiva.myplayer.main.MainPresenter
+import com.antonioleiva.myplayer.model.MediaItem
+import com.antonioleiva.myplayer.model.Provider
 import com.nhaarman.mockitokotlin2.any
 import com.nhaarman.mockitokotlin2.argumentCaptor
 import com.nhaarman.mockitokotlin2.mock

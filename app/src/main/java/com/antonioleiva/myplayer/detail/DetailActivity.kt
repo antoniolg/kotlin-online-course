@@ -1,8 +1,11 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.detail
 
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
+import com.antonioleiva.myplayer.*
+import com.antonioleiva.myplayer.detail.di.DetailModule
 import kotlinx.android.synthetic.main.activity_detail.*
+import javax.inject.Inject
 
 class DetailActivity : AppCompatActivity(), DetailPresenter.View {
 
@@ -10,11 +13,14 @@ class DetailActivity : AppCompatActivity(), DetailPresenter.View {
         const val EXTRA_ID = "DetailActivity:extraId"
     }
 
-    private val presenter = DetailPresenter(this)
+    private val component by lazy { app.component.plus(DetailModule(this)) }
+    @Inject lateinit var presenter: DetailPresenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        component.inject(this)
+
         presenter.onCreate(intent.getLongExtra(EXTRA_ID, -1))
     }
 

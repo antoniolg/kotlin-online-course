@@ -1,4 +1,4 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.model
 
 sealed class Filter {
     object None : Filter()

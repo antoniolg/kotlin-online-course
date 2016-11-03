@@ -1,8 +1,12 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.main
 
 import android.support.v7.widget.RecyclerView
 import android.view.View
 import android.view.ViewGroup
+import com.antonioleiva.myplayer.R
+import com.antonioleiva.myplayer.inflate
+import com.antonioleiva.myplayer.loadUrl
+import com.antonioleiva.myplayer.model.MediaItem
 import kotlinx.android.synthetic.main.view_media_item.view.*
 import kotlin.properties.Delegates
 

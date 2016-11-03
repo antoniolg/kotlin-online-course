@@ -1,6 +1,9 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.detail
 
-class DetailPresenter(private val view: View, private val provider: Provider = MediaProvider) {
+import com.antonioleiva.myplayer.model.MediaItem
+import com.antonioleiva.myplayer.model.Provider
+
+class DetailPresenter(private val view: View, private val provider: Provider) {
 
     interface View {
         fun setTitle(title: String)

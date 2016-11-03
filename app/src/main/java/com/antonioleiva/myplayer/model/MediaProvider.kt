@@ -1,6 +1,6 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.model
 
-import com.antonioleiva.myplayer.MediaItem.Type
+import com.antonioleiva.myplayer.model.MediaItem.Type
 import org.jetbrains.anko.doAsync
 import org.jetbrains.anko.uiThread
 import java.util.*

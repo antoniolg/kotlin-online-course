@@ -2,6 +2,7 @@
 
 package com.antonioleiva.myplayer
 
+import android.app.Activity
 import android.content.Context
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
@@ -29,3 +30,6 @@ fun ImageView.loadUrl(url: String) {
 
 fun View.show() = run { visibility = View.VISIBLE }
 fun View.hide() = run { visibility = View.GONE }
+
+val Activity.app: App
+    get() = application as App
