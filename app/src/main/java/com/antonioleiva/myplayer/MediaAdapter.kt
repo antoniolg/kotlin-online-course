@@ -6,7 +6,9 @@ import android.view.ViewGroup
 import kotlinx.android.synthetic.main.view_media_item.view.*
 import kotlin.properties.Delegates
 
-class MediaAdapter(data: List<MediaItem> = emptyList(), private val listener: (MediaItem) -> Unit) :
+typealias Listener = (MediaItem) -> Unit
+
+class MediaAdapter(data: List<MediaItem> = emptyList(), private val listener: Listener) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     var data by Delegates.observable(data) { _, _, _ -> notifyDataSetChanged() }
@@ -20,7 +22,7 @@ class MediaAdapter(data: List<MediaItem> = emptyList(), private val listener: (M
 
     override fun getItemCount(): Int = data.size
 
-    class ViewHolder(view: View, private val listener: (MediaItem) -> Unit) :
+    class ViewHolder(view: View, private val listener: Listener) :
         RecyclerView.ViewHolder(view) {
 
         fun bind(item: MediaItem) = with(itemView) {
