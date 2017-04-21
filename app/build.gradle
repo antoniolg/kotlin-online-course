@@ -26,4 +26,5 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'com.squareup.picasso:picasso:2.5.2'
     implementation 'org.jetbrains.anko:anko-common:0.10.8'
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:1.1.0"
 }

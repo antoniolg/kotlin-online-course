@@ -5,6 +5,10 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import org.jetbrains.anko.startActivity
 
 class MainActivity : AppCompatActivity() {
@@ -17,7 +21,14 @@ class MainActivity : AppCompatActivity() {
 
         recycler.adapter = adapter
         progress.show()
-        MediaProvider.dataAsync { updateData(it) }
+
+        loadContent()
+    }
+
+    private fun loadContent(filter: Filter = Filter.None) = GlobalScope.launch(Dispatchers.Main) {
+        val cats = async(Dispatchers.IO) { MediaProvider.dataSync("cats") }
+        val nature = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
+        updateData(cats.await() + nature.await(), filter)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -36,7 +47,7 @@ class MainActivity : AppCompatActivity() {
 
         filter?.let {
             progress.show()
-            MediaProvider.dataAsync { media -> updateData(media, filter) }
+            loadContent(filter)
             return true
         }
 
