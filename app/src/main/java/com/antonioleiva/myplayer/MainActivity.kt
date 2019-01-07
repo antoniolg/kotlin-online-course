@@ -5,13 +5,16 @@ import android.support.v7.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
 import kotlinx.android.synthetic.main.activity_main.*
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.async
-import kotlinx.coroutines.launch
+import kotlinx.coroutines.*
 import org.jetbrains.anko.startActivity
+import kotlin.coroutines.CoroutineContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), CoroutineScope {
+
+    private lateinit var job: Job
+
+    override val coroutineContext: CoroutineContext
+        get() = Dispatchers.Main + job
 
     private val adapter = MediaAdapter { itemClicked(it) }
 
@@ -19,13 +22,15 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        job = Job()
+
         recycler.adapter = adapter
         progress.show()
 
         loadContent()
     }
 
-    private fun loadContent(filter: Filter = Filter.None) = GlobalScope.launch(Dispatchers.Main) {
+    private fun loadContent(filter: Filter = Filter.None) = launch {
         val cats = async(Dispatchers.IO) { MediaProvider.dataSync("cats") }
         val nature = async(Dispatchers.IO) { MediaProvider.dataSync("nature") }
         updateData(cats.await() + nature.await(), filter)
@@ -64,5 +69,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun itemClicked(it: MediaItem) {
         startActivity<DetailActivity>(DetailActivity.EXTRA_ID to it.id)
+    }
+
+    override fun onDestroy() {
+        job.cancel()
+        super.onDestroy()
     }
 }
