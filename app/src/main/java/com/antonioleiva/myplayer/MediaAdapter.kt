@@ -29,7 +29,7 @@ class MediaAdapter(private val items: List<MediaItem>) :
 
         fun bind(mediaItem: MediaItem) {
             title.text = mediaItem.title
-            Glide.with(thumb).load(mediaItem.url).into(thumb)
+            thumb.loadUrl(mediaItem.url)
             itemView.setOnClickListener { toast(mediaItem.title) }
         }
     }
