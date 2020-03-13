@@ -7,12 +7,27 @@
     android:orientation="vertical"
     android:padding="2dp">
 
-    <ImageView
-        android:id="@+id/mediaThumb"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:scaleType="centerCrop"
-        tools:src="@mipmap/ic_launcher"/>
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/mediaThumb"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            tools:src="@mipmap/ic_launcher"/>
+
+        <ImageView
+            android:id="@+id/mediaVideoIndicator"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="gone"
+            android:src="@drawable/ic_play_circle_outline"
+            tools:visibility="visible"/>
+
+    </FrameLayout>
 
     <TextView
         android:id="@+id/mediaTitle"

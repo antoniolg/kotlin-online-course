@@ -26,11 +26,17 @@ class MediaAdapter(private val items: List<MediaItem>) :
 
         private val title = view.findViewById<TextView>(R.id.mediaTitle)
         private val thumb = view.findViewById<ImageView>(R.id.mediaThumb)
+        private val videoIndicator: View = view.findViewById(R.id.mediaVideoIndicator)
 
         fun bind(mediaItem: MediaItem) {
             title.text = mediaItem.title
             thumb.loadUrl(mediaItem.url)
             itemView.setOnClickListener { toast(mediaItem.title) }
+
+            videoIndicator.visibility = when (mediaItem.type) {
+                MediaItem.Type.PHOTO -> View.GONE
+                MediaItem.Type.VIDEO -> View.VISIBLE
+            }
         }
     }
 }
