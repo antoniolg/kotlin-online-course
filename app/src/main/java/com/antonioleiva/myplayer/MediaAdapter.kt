@@ -24,13 +24,15 @@ class MediaAdapter(private val items: List<MediaItem>) :
         private val binding = ViewMediaItemBinding.bind(view)
 
         fun bind(mediaItem: MediaItem) {
-            binding.mediaTitle.text = mediaItem.title
-            binding.mediaThumb.loadUrl(mediaItem.url)
-            binding.root.setOnClickListener { toast(mediaItem.title) }
+            with(binding){
+                mediaTitle.text = mediaItem.title
+                mediaThumb.loadUrl(mediaItem.url)
+                root.setOnClickListener { toast(mediaItem.title) }
 
-            binding.mediaVideoIndicator.visibility = when (mediaItem.type) {
-                MediaItem.Type.PHOTO -> View.GONE
-                MediaItem.Type.VIDEO -> View.VISIBLE
+                mediaVideoIndicator.visibility = when (mediaItem.type) {
+                    MediaItem.Type.PHOTO -> View.GONE
+                    MediaItem.Type.VIDEO -> View.VISIBLE
+                }
             }
         }
     }
