@@ -2,13 +2,14 @@ package com.antonioleiva.myplayer
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import kotlinx.android.synthetic.main.activity_main.*
+import com.antonioleiva.myplayer.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        val binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        recycler.adapter = MediaAdapter(getItems())
+        binding.recycler.adapter = MediaAdapter(getItems())
     }
 }
