@@ -11,6 +11,8 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        binding.recycler.adapter = MediaAdapter(getItems())
+        binding.recycler.adapter = MediaAdapter(getItems()) {
+            toast(it.title)
+        }
     }
 }
