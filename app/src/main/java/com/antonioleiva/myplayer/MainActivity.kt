@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 
 class MainActivity : AppCompatActivity() {
 
-    private val adapter by lazy { MediaAdapter { toast(it.title) } }
+    private val adapter by lazy { MediaAdapter { itemClicked(it) } }
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,6 +23,10 @@ class MainActivity : AppCompatActivity() {
 
         binding.recycler.adapter = adapter
         updateItems()
+    }
+
+    private fun itemClicked(mediaItem: MediaItem) {
+        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to mediaItem.id)
     }
 
     private fun updateItems(filterId: Int = R.id.filter_all) {

@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
+import androidx.core.os.bundleOf
 import com.bumptech.glide.Glide
 
 fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {
@@ -28,6 +29,8 @@ fun ImageView.loadUrl(url: String) {
     Glide.with(this).load(url).into(this)
 }
 
-inline fun <reified T: Activity> Context.startActivity() {
-    startActivity(Intent(this, T::class.java))
+inline fun <reified T : Activity> Context.startActivity(vararg pairs: Pair<String, Any?>) {
+    val intent = Intent(this, T::class.java)
+    intent.putExtras(bundleOf(*pairs))
+    startActivity(intent)
 }
