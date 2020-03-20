@@ -4,9 +4,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.antonioleiva.myplayer.databinding.ViewMediaItemBinding
+import kotlin.properties.Delegates
 
-class MediaAdapter(private val items: List<MediaItem>, private val listener: (MediaItem) -> Unit) :
+class MediaAdapter(items: List<MediaItem> = emptyList(), private val listener: (MediaItem) -> Unit) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
+
+    var items by Delegates.observable(items) { _, _, _ -> notifyDataSetChanged() }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = parent.inflate(R.layout.view_media_item, false)
