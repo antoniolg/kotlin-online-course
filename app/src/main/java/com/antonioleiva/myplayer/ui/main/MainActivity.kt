@@ -4,14 +4,13 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import com.antonioleiva.myplayer.R
 import com.antonioleiva.myplayer.data.Filter
 import com.antonioleiva.myplayer.data.MediaItem.Type
 import com.antonioleiva.myplayer.databinding.ActivityMainBinding
 import com.antonioleiva.myplayer.ui.detail.DetailActivity
+import com.antonioleiva.myplayer.ui.getViewModel
+import com.antonioleiva.myplayer.ui.observe
 import com.antonioleiva.myplayer.ui.setVisible
 import com.antonioleiva.myplayer.ui.startActivity
 
@@ -26,10 +25,10 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = ViewModelProvider(this).get<MainViewModel>().apply {
-            items.observe(this@MainActivity, Observer { adapter.items = it })
-            progressVisible.observe(this@MainActivity, Observer { binding.progress.setVisible(it) })
-            navigateToDetail.observe(this@MainActivity, Observer { navigateToDetail(it) })
+        viewModel = getViewModel {
+            observe(items) { adapter.items = it }
+            observe(progressVisible) { binding.progress.setVisible(it) }
+            observe(navigateToDetail) { navigateToDetail(it) }
         }
 
         binding.recycler.adapter = adapter

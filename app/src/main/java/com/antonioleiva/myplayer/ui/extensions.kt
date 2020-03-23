@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.core.os.bundleOf
+import androidx.lifecycle.*
 import com.antonioleiva.myplayer.ui.main.MediaAdapter
 import com.bumptech.glide.Glide
 
@@ -38,4 +39,11 @@ inline fun <reified T : Activity> Context.startActivity(vararg pairs: Pair<Strin
 
 fun View.setVisible(visible: Boolean) {
     visibility = if (visible) View.VISIBLE else View.GONE
+}
+
+inline fun <reified T : ViewModel> ViewModelStoreOwner.getViewModel(body: T.() -> Unit = { }): T =
+    ViewModelProvider(this).get<T>().apply(body)
+
+fun <T> LifecycleOwner.observe(liveData: LiveData<T>, observer: (T) -> Unit) {
+    liveData.observe(this, Observer(observer))
 }
