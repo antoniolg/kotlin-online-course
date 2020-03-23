@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.antonioleiva.myplayer.DetailActivity">
+    tools:context="com.antonioleiva.myplayer.ui.detail.DetailActivity">
 
     <ImageView
         android:id="@+id/detail_thumb"

@@ -1,10 +1,13 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.ui.detail
 
 import android.os.Bundle
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
+import com.antonioleiva.myplayer.data.MediaItem
+import com.antonioleiva.myplayer.data.MediaProvider
 import com.antonioleiva.myplayer.databinding.ActivityDetailBinding
+import com.antonioleiva.myplayer.ui.loadUrl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext

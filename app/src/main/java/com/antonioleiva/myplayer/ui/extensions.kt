@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.ui
 
 import android.app.Activity
 import android.content.Context
@@ -12,6 +12,7 @@ import android.widget.ImageView
 import android.widget.Toast
 import androidx.annotation.LayoutRes
 import androidx.core.os.bundleOf
+import com.antonioleiva.myplayer.ui.main.MediaAdapter
 import com.bumptech.glide.Glide
 
 fun Context.toast(message: String, length: Int = Toast.LENGTH_SHORT) {

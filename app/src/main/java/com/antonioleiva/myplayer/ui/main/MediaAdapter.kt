@@ -1,9 +1,13 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.ui.main
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.antonioleiva.myplayer.data.MediaItem
+import com.antonioleiva.myplayer.R
 import com.antonioleiva.myplayer.databinding.ViewMediaItemBinding
+import com.antonioleiva.myplayer.ui.inflate
+import com.antonioleiva.myplayer.ui.loadUrl
 import kotlin.properties.Delegates
 
 private typealias MediaListener = (MediaItem) -> Unit
@@ -15,7 +19,10 @@ class MediaAdapter(items: List<MediaItem> = emptyList(), private val listener: M
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val v = parent.inflate(R.layout.view_media_item, false)
-        return ViewHolder(v, listener)
+        return ViewHolder(
+            v,
+            listener
+        )
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {

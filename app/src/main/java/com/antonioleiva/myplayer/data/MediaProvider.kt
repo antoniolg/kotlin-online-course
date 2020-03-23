@@ -1,6 +1,6 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.data
 
-import com.antonioleiva.myplayer.MediaItem.Type
+import com.antonioleiva.myplayer.data.MediaItem.Type
 
 object MediaProvider {
     fun getItems(): List<MediaItem> {

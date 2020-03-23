@@ -1,4 +1,4 @@
-package com.antonioleiva.myplayer
+package com.antonioleiva.myplayer.ui.main
 
 import android.os.Bundle
 import android.view.Menu
@@ -6,8 +6,14 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.antonioleiva.myplayer.MediaItem.Type
+import com.antonioleiva.myplayer.R
+import com.antonioleiva.myplayer.data.Filter
+import com.antonioleiva.myplayer.data.MediaItem
+import com.antonioleiva.myplayer.data.MediaItem.Type
+import com.antonioleiva.myplayer.data.MediaProvider
 import com.antonioleiva.myplayer.databinding.ActivityMainBinding
+import com.antonioleiva.myplayer.ui.detail.DetailActivity
+import com.antonioleiva.myplayer.ui.startActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
