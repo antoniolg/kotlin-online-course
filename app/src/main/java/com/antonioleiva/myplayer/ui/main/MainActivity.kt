@@ -3,25 +3,22 @@ package com.antonioleiva.myplayer.ui.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.antonioleiva.myplayer.R
 import com.antonioleiva.myplayer.data.Filter
 import com.antonioleiva.myplayer.data.MediaItem
 import com.antonioleiva.myplayer.data.MediaItem.Type
-import com.antonioleiva.myplayer.data.MediaProvider
 import com.antonioleiva.myplayer.databinding.ActivityMainBinding
 import com.antonioleiva.myplayer.ui.detail.DetailActivity
+import com.antonioleiva.myplayer.ui.setVisible
 import com.antonioleiva.myplayer.ui.startActivity
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), MainPresenter.View {
 
-    private val adapter by lazy { MediaAdapter { itemClicked(it) } }
+    private val adapter by lazy { MediaAdapter { presenter.onItemClicked(it) } }
     private lateinit var binding: ActivityMainBinding
+    private val presenter = MainPresenter(this, lifecycleScope)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,29 +26,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         binding.recycler.adapter = adapter
-        updateItems()
-    }
-
-    private fun itemClicked(mediaItem: MediaItem) {
-        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to mediaItem.id)
-    }
-
-    private fun updateItems(filter: Filter = Filter.None) {
-        lifecycleScope.launch {
-            binding.progress.visibility = View.VISIBLE
-            val items = withContext(Dispatchers.IO) { getFilteredItems(filter) }
-            adapter.items = items
-            binding.progress.visibility = View.GONE
-        }
-    }
-
-    private fun getFilteredItems(filter: Filter): List<MediaItem> {
-        return MediaProvider.getItems().let { media ->
-            when (filter) {
-                Filter.None -> media
-                is Filter.ByType -> media.filter { it.type == filter.type }
-            }
-        }
+        presenter.onFilterSelected(Filter.None)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -66,7 +41,19 @@ class MainActivity : AppCompatActivity() {
             else -> Filter.None
         }
 
-        updateItems(filter)
+        presenter.onFilterSelected(filter)
         return true
+    }
+
+    override fun setProgressVisible(visible: Boolean) {
+        binding.progress.setVisible(visible)
+    }
+
+    override fun updateItems(items: List<MediaItem>) {
+        adapter.items = items
+    }
+
+    override fun navigateToDetail(id: Int) {
+        startActivity<DetailActivity>(DetailActivity.EXTRA_ID to id)
     }
 }

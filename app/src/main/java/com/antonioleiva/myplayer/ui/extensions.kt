@@ -35,3 +35,7 @@ inline fun <reified T : Activity> Context.startActivity(vararg pairs: Pair<Strin
     intent.putExtras(bundleOf(*pairs))
     startActivity(intent)
 }
+
+fun View.setVisible(visible: Boolean) {
+    visibility = if (visible) View.VISIBLE else View.GONE
+}
