@@ -6,7 +6,9 @@ import androidx.recyclerview.widget.RecyclerView
 import com.antonioleiva.myplayer.databinding.ViewMediaItemBinding
 import kotlin.properties.Delegates
 
-class MediaAdapter(items: List<MediaItem> = emptyList(), private val listener: (MediaItem) -> Unit) :
+private typealias MediaListener = (MediaItem) -> Unit
+
+class MediaAdapter(items: List<MediaItem> = emptyList(), private val listener: MediaListener) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
 
     var items by Delegates.observable(items) { _, _, _ -> notifyDataSetChanged() }
@@ -22,12 +24,13 @@ class MediaAdapter(items: List<MediaItem> = emptyList(), private val listener: (
 
     override fun getItemCount(): Int = items.size
 
-    class ViewHolder(view: View, private val listener: (MediaItem) -> Unit) : RecyclerView.ViewHolder(view) {
+    class ViewHolder(view: View, private val listener: MediaListener) :
+        RecyclerView.ViewHolder(view) {
 
         private val binding = ViewMediaItemBinding.bind(view)
 
         fun bind(mediaItem: MediaItem) {
-            with(binding){
+            with(binding) {
                 mediaTitle.text = mediaItem.title
                 mediaThumb.loadUrl(mediaItem.url)
                 root.setOnClickListener { listener(mediaItem) }
