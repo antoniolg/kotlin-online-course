@@ -4,29 +4,36 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.antonioleiva.myplayer.R
 import com.antonioleiva.myplayer.data.Filter
-import com.antonioleiva.myplayer.data.MediaItem
 import com.antonioleiva.myplayer.data.MediaItem.Type
 import com.antonioleiva.myplayer.databinding.ActivityMainBinding
 import com.antonioleiva.myplayer.ui.detail.DetailActivity
 import com.antonioleiva.myplayer.ui.setVisible
 import com.antonioleiva.myplayer.ui.startActivity
 
-class MainActivity : AppCompatActivity(), MainPresenter.View {
+class MainActivity : AppCompatActivity() {
 
-    private val adapter by lazy { MediaAdapter { presenter.onItemClicked(it) } }
+    private val adapter by lazy { MediaAdapter { viewModel.onItemClicked(it) } }
     private lateinit var binding: ActivityMainBinding
-    private val presenter = MainPresenter(this, lifecycleScope)
+    private lateinit var viewModel: MainViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        viewModel = ViewModelProvider(this).get<MainViewModel>().apply {
+            items.observe(this@MainActivity, Observer { adapter.items = it })
+            progressVisible.observe(this@MainActivity, Observer { binding.progress.setVisible(it) })
+            navigateToDetail.observe(this@MainActivity, Observer { navigateToDetail(it) })
+        }
+
         binding.recycler.adapter = adapter
-        presenter.onFilterSelected(Filter.None)
+        viewModel.onFilterSelected(Filter.None)
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -41,19 +48,11 @@ class MainActivity : AppCompatActivity(), MainPresenter.View {
             else -> Filter.None
         }
 
-        presenter.onFilterSelected(filter)
+        viewModel.onFilterSelected(filter)
         return true
     }
 
-    override fun setProgressVisible(visible: Boolean) {
-        binding.progress.setVisible(visible)
-    }
-
-    override fun updateItems(items: List<MediaItem>) {
-        adapter.items = items
-    }
-
-    override fun navigateToDetail(id: Int) {
+    private fun navigateToDetail(id: Int) {
         startActivity<DetailActivity>(DetailActivity.EXTRA_ID to id)
     }
 }
