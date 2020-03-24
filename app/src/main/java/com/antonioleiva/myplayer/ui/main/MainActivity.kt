@@ -28,7 +28,9 @@ class MainActivity : AppCompatActivity() {
         viewModel = getViewModel {
             observe(items) { adapter.items = it }
             observe(progressVisible) { binding.progress.setVisible(it) }
-            observe(navigateToDetail) { navigateToDetail(it) }
+            observe(navigateToDetail) { event ->
+                event.getContentIfNotHandled()?.let { navigateToDetail(it) }
+            }
         }
 
         binding.recycler.adapter = adapter

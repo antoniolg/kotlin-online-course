@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.antonioleiva.myplayer.data.Filter
 import com.antonioleiva.myplayer.data.MediaItem
 import com.antonioleiva.myplayer.data.MediaProvider
+import com.antonioleiva.myplayer.ui.Event
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -19,8 +20,8 @@ class MainViewModel : ViewModel() {
     private val _progressVisible = MutableLiveData<Boolean>()
     val progressVisible: LiveData<Boolean> get() = _progressVisible
 
-    private val _navigateToDetail = MutableLiveData<Int>()
-    val navigateToDetail: LiveData<Int> get() = _navigateToDetail
+    private val _navigateToDetail = MutableLiveData<Event<Int>>()
+    val navigateToDetail: LiveData<Event<Int>> get() = _navigateToDetail
 
     fun onFilterSelected(filter: Filter) {
         viewModelScope.launch {
@@ -40,6 +41,6 @@ class MainViewModel : ViewModel() {
     }
 
     fun onItemClicked(item: MediaItem) {
-        _navigateToDetail.value = item.id
+        _navigateToDetail.value = Event(item.id)
     }
 }
