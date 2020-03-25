@@ -2,8 +2,12 @@ package com.antonioleiva.myplayer.data
 
 import com.antonioleiva.myplayer.data.MediaItem.Type
 
-object MediaProvider {
-    fun getItems(): List<MediaItem> {
+interface MediaProvider {
+    fun getItems(): List<MediaItem>
+}
+
+object MediaProviderImpl : MediaProvider {
+    override fun getItems(): List<MediaItem> {
         Thread.sleep(2000)
         return (1..10).map {
             MediaItem(
