@@ -8,13 +8,8 @@ import com.antonioleiva.myplayer.data.MediaItem.Type
 import com.antonioleiva.myplayer.ui.Event
 import com.nhaarman.mockitokotlin2.mock
 import com.nhaarman.mockitokotlin2.verify
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
-import kotlinx.coroutines.test.TestCoroutineDispatcher
-import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runBlockingTest
-import kotlinx.coroutines.test.setMain
-import org.junit.After
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
@@ -28,25 +23,20 @@ class MainViewModelTest {
     @get:Rule
     val rule = InstantTaskExecutorRule()
 
+    @get:Rule
+    val coroutinesTestRule = CoroutinesTestRule()
+
     private lateinit var vm: MainViewModel
     private val fakeMediaProvider = FakeMediaProvider()
-    private val testDispatcher = TestCoroutineDispatcher()
 
     @Before
     fun setUp() {
-        Dispatchers.setMain(testDispatcher)
-        vm = MainViewModel(fakeMediaProvider, testDispatcher)
-    }
-
-    @After
-    fun tearDown() {
-        Dispatchers.resetMain()
-        testDispatcher.cleanupTestCoroutines()
+        vm = MainViewModel(fakeMediaProvider, coroutinesTestRule.testDispatcher)
     }
 
     @Test
     fun `progress is set visible when progressVisible value changes`() =
-        testDispatcher.runBlockingTest {
+        coroutinesTestRule.testDispatcher.runBlockingTest {
             val observer = mock<Observer<Boolean>>()
             vm.progressVisible.observeForever(observer)
 
@@ -56,15 +46,16 @@ class MainViewModelTest {
         }
 
     @Test
-    fun `navigates to detail when onItemClicked`() = testDispatcher.runBlockingTest {
-        val observer = mock<Observer<Event<Int>>>()
-        vm.navigateToDetail.observeForever(observer)
+    fun `navigates to detail when onItemClicked`() =
+        coroutinesTestRule.testDispatcher.runBlockingTest {
+            val observer = mock<Observer<Event<Int>>>()
+            vm.navigateToDetail.observeForever(observer)
 
-        val mediaItem = MediaItem(1, "", "", Type.PHOTO)
-        vm.onItemClicked(mediaItem)
+            val mediaItem = MediaItem(1, "", "", Type.PHOTO)
+            vm.onItemClicked(mediaItem)
 
-        verify(observer).onChanged(Event(1))
-    }
+            verify(observer).onChanged(Event(1))
+        }
 
     @Test
     fun `updates items when onFilterClicked`() {
