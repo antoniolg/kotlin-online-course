@@ -3,29 +3,29 @@ package com.antonioleiva.myplayer.ui.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
-import androidx.appcompat.app.AppCompatActivity
 import com.antonioleiva.myplayer.R
 import com.antonioleiva.myplayer.data.Filter
 import com.antonioleiva.myplayer.data.MediaItem.Type
 import com.antonioleiva.myplayer.databinding.ActivityMainBinding
 import com.antonioleiva.myplayer.ui.detail.DetailActivity
-import com.antonioleiva.myplayer.ui.getViewModel
 import com.antonioleiva.myplayer.ui.observe
 import com.antonioleiva.myplayer.ui.setVisible
 import com.antonioleiva.myplayer.ui.startActivity
+import org.koin.android.scope.ScopeActivity
+import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ScopeActivity() {
 
     private val adapter by lazy { MediaAdapter { viewModel.onItemClicked(it) } }
     private lateinit var binding: ActivityMainBinding
-    private lateinit var viewModel: MainViewModel
+    private val viewModel: MainViewModel by viewModel()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        viewModel = getViewModel {
+        with(viewModel) {
             observe(items) { adapter.items = it }
             observe(progressVisible) { binding.progress.setVisible(it) }
             observe(navigateToDetail) { event ->

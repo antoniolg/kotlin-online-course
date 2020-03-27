@@ -7,16 +7,14 @@ import androidx.lifecycle.viewModelScope
 import com.antonioleiva.myplayer.data.Filter
 import com.antonioleiva.myplayer.data.MediaItem
 import com.antonioleiva.myplayer.data.MediaProvider
-import com.antonioleiva.myplayer.data.MediaProviderImpl
 import com.antonioleiva.myplayer.ui.Event
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import kotlin.coroutines.CoroutineContext
 
 class MainViewModel(
-    private val mediaProvider: MediaProvider = MediaProviderImpl,
-    private val ioDispatcher: CoroutineContext = Dispatchers.IO
+    private val mediaProvider: MediaProvider,
+    private val ioDispatcher: CoroutineContext
 ) : ViewModel() {
 
     private val _items = MutableLiveData<List<MediaItem>>()
