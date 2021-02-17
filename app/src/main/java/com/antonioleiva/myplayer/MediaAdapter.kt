@@ -1,12 +1,9 @@
 package com.antonioleiva.myplayer
 
-import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
+import com.antonioleiva.myplayer.databinding.ViewMediaItemBinding
 
 class MediaAdapter(private val items: List<MediaItem>) :
     RecyclerView.Adapter<MediaAdapter.ViewHolder>() {
@@ -24,16 +21,14 @@ class MediaAdapter(private val items: List<MediaItem>) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 
-        private val title = view.findViewById<TextView>(R.id.mediaTitle)
-        private val thumb = view.findViewById<ImageView>(R.id.mediaThumb)
-        private val videoIndicator: View = view.findViewById(R.id.mediaVideoIndicator)
+        private val binding = ViewMediaItemBinding.bind(view)
 
         fun bind(mediaItem: MediaItem) {
-            title.text = mediaItem.title
-            thumb.loadUrl(mediaItem.url)
-            itemView.setOnClickListener { toast(mediaItem.title) }
+            binding.mediaTitle.text = mediaItem.title
+            binding.mediaThumb.loadUrl(mediaItem.url)
+            binding.root.setOnClickListener { toast(mediaItem.title) }
 
-            videoIndicator.visibility = when (mediaItem.type) {
+            binding.mediaVideoIndicator.visibility = when (mediaItem.type) {
                 MediaItem.Type.PHOTO -> View.GONE
                 MediaItem.Type.VIDEO -> View.VISIBLE
             }
