@@ -1,6 +1,6 @@
 # Kotlin for Android Developers (Online Course)
 
-![Kotlin Course Logo](/art/kotlin-course-logo.png?raw=true)
+![Kotlin Course Logo](/art/kotlin-course-logo.jpg?raw=true)
 
 ## Learn Kotlin while developing an Android App
 
@@ -10,7 +10,7 @@ Companion App of the online course.
 
 > THE ONLINE COURSE CERTIFIED BY JETBRAINS TO LEARN KOTLIN FOR ANDROID. FINISH THE COURSE AND GET A CERTIFICATE OF COMPLETION.
 
-![Kotlin Training Certified](/art/kotlin-training-certified.png?raw=true)
+![Kotlin Training Certified](/art/kotlin-training-certified.jpg?raw=true)
 
 - Get in English: [Kotlin for Android Developers](https://antonioleiva.com/online-course/)
 - Get in Spanish: [Kotlin para Desarrolladores Android](https://devexperto.com/curso-kotlin-online/)
