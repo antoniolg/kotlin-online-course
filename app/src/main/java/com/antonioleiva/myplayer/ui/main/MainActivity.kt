@@ -3,6 +3,7 @@ package com.antonioleiva.myplayer.ui.main
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import com.antonioleiva.myplayer.R
 import com.antonioleiva.myplayer.data.Filter
 import com.antonioleiva.myplayer.data.MediaItem.Type
@@ -11,10 +12,9 @@ import com.antonioleiva.myplayer.ui.detail.DetailActivity
 import com.antonioleiva.myplayer.ui.observe
 import com.antonioleiva.myplayer.ui.setVisible
 import com.antonioleiva.myplayer.ui.startActivity
-import org.koin.android.scope.ScopeActivity
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class MainActivity : ScopeActivity() {
+class MainActivity : AppCompatActivity() {
 
     private val adapter by lazy { MediaAdapter { viewModel.onItemClicked(it) } }
     private lateinit var binding: ActivityMainBinding

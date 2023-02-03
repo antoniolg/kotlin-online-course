@@ -1,15 +1,15 @@
 package com.antonioleiva.myplayer.ui.detail
 
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import com.antonioleiva.myplayer.data.MediaItem.Type
 import com.antonioleiva.myplayer.databinding.ActivityDetailBinding
 import com.antonioleiva.myplayer.ui.loadUrl
 import com.antonioleiva.myplayer.ui.observe
 import com.antonioleiva.myplayer.ui.setVisible
-import org.koin.android.scope.ScopeActivity
-import org.koin.android.viewmodel.ext.android.viewModel
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class DetailActivity : ScopeActivity() {
+class DetailActivity: AppCompatActivity() {
 
     companion object {
         const val EXTRA_ID = "DetailActivity:extraId"
